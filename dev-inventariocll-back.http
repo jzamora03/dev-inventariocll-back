@@ -1,0 +1,6 @@
+@dev_inventariocll_back_HostAddress = http://localhost:5239
+
+GET {{dev_inventariocll_back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
