@@ -17,35 +17,43 @@ public class ProductosController : ControllerBase
 		_context = context;
 	}
 
-	//// POST /productos/movimiento
-	//[HttpPost("movimiento")]
-	//public IActionResult RegistrarMovimiento([FromBody] MovimientoDTO data)
-	//{
-	//	var producto = _context.Productos.FirstOrDefault(p => p.Id == data.Id);
+    //// POST /productos/movimiento
+    //[HttpPost("movimiento")]
+    //public IActionResult RegistrarMovimiento([FromBody] MovimientoDTO data)
+    //{
+    //	var producto = _context.Productos.FirstOrDefault(p => p.Id == data.Id);
 
-	//	if (producto == null)
-	//		return NotFound(new { mensaje = "El producto no existe" });
+    //	if (producto == null)
+    //		return NotFound(new { mensaje = "El producto no existe" });
 
-	//	producto.Cantidad += data.Cantidad;
-	//	_context.SaveChanges();
+    //	producto.Cantidad += data.Cantidad;
+    //	_context.SaveChanges();
 
-	//	return Ok(new
-	//	{
-	//		mensaje = "Movimiento registrado correctamente",
-	//		producto
-	//	});
-	//}
+    //	return Ok(new
+    //	{
+    //		mensaje = "Movimiento registrado correctamente",
+    //		producto
+    //	});
+    //}
 
-	// GET /productos/inventario
-	[HttpGet("obtener-inventario")]
-	public IActionResult ObtenerInventario()
-	{
-		var lista = _context.Productos.ToList();
-		return Ok(lista);
-	}
-		
-	// POST /productos/agrear-nuevo-producto
-	[HttpPost("agrear-nuevo-producto")]
+    [HttpGet("obtener-productos")]
+    public IActionResult ObtenerProductos()
+    {
+        var productos = _context.Productos
+            .OrderBy(p => p.Id) 
+            .Select(p => new
+            {
+                p.Id,
+                p.Nombre,
+                p.Cantidad
+            })
+            .ToList();
+
+        return Ok(productos);
+    }
+
+    // POST /productos/agrear-nuevo-producto
+    [HttpPost("agrear-nuevo-producto")]
 	public IActionResult AgregarProducto([FromBody] Producto nuevo)
 	{
 		if (string.IsNullOrWhiteSpace(nuevo.Nombre))
@@ -57,7 +65,7 @@ public class ProductosController : ControllerBase
 		_context.Productos.Add(nuevo);
 		_context.SaveChanges();
 
-		return CreatedAtAction(nameof(ObtenerInventario), new { id = nuevo.Id }, nuevo);
+		return CreatedAtAction(nameof(ObtenerProductos), new { id = nuevo.Id }, nuevo);
 	}
 
 	// PUT /productos/actualizar-producto
