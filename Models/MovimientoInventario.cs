@@ -22,7 +22,7 @@ namespace InventarioAPI.Models
         public int Cantidad { get; set; }
 
         [Column("tipo")]
-        public string Tipo { get; set; } = string.Empty; // "Entrada" o "Salida"
+        public string Tipo { get; set; } = string.Empty;
 
         [Column("fecha")]
         public DateTime Fecha { get; set; }

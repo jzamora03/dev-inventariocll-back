@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
     public IActionResult Login([FromBody] LoginRequest request)
     {
         if (request.Username != "adminprueba" || request.Password != "321")
-            return Unauthorized(new { mensaje = "Credenciales incorrectas" });
+            return Unauthorized(new { mensaje = "El usuario o la contraseña no coincide con la registrada" });
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
