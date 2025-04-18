@@ -36,22 +36,36 @@ public class ProductosController : ControllerBase
 
     // POST /productos/agrear-nuevo-producto
     [HttpPost("agrear-nuevo-producto")]
-	public IActionResult AgregarProducto([FromBody] Producto nuevo)
-	{
-		if (string.IsNullOrWhiteSpace(nuevo.Nombre))
-			return BadRequest(new { mensaje = "El nombre no debe ir vacio." });
+    public IActionResult AgregarProducto([FromBody] Producto producto)
+    {
+        // Función local para normalizar el nombre (quitar espacios extra y pasar a minúsculas)
+        string NormalizarNombre(string nombre) =>
+            System.Text.RegularExpressions.Regex.Replace(nombre.Trim().ToLowerInvariant(), @"\s+", " ");
 
-		if (nuevo.Cantidad < 0)
-			return BadRequest(new { mensaje = "La cantidad no puede ser negativa." });
+        var nombreNormalizado = NormalizarNombre(producto.Nombre);
 
-		_context.Productos.Add(nuevo);
-		_context.SaveChanges();
+        // Verificar si ya existe un producto con ese nombre normalizado
+        var existe = _context.Productos
+            .AsEnumerable()
+            .Any(p => NormalizarNombre(p.Nombre) == nombreNormalizado);
 
-		return CreatedAtAction(nameof(ObtenerProductos), new { id = nuevo.Id }, nuevo);
-	}
+        if (existe)
+        {
+            return BadRequest(new { mensaje = "Ya existe un producto con ese nombre." });
+        }
 
-	// PUT /productos/actualizar-producto
-	[HttpPut("actualizar-producto")]
+        // Guardar el producto con nombre limpio (opcional)
+        producto.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo
+            .ToTitleCase(nombreNormalizado); // Convierte a "Portatil Lenovo Ryzen 5"
+
+        _context.Productos.Add(producto);
+        _context.SaveChanges();
+
+        return Ok(producto);
+    }
+
+    // PUT /productos/actualizar-producto
+    [HttpPut("actualizar-producto")]
 	public IActionResult ActualizarProducto([FromBody] Producto actualizado)
 	{
 		var producto = _context.Productos.FirstOrDefault(p => p.Id == actualizado.Id);
