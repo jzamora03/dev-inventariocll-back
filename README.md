@@ -1,5 +1,3 @@
-# dev-inventariocll-back
-
 ### Backend - Sistema de Gestión de Inventario (CCL)
 
 Este backend fue desarrollado en **.NET Core 9** con **Entity Framework Core** y **PostgreSQL** para la gestión básica de inventario (entradas y salidas de productos), a su vez para poder visualizar estas entradas y salidas, agregar, eliminar o editar productos.
@@ -16,33 +14,30 @@ Este backend fue desarrollado en **.NET Core 9** con **Entity Framework Core** y
 ### Configuración Inicial
 
 > [!IMPORTANT]
-> Verificar el puerto en el que se esta levantando el servidor, normalmente es en 500.
+> Verificar el puerto en el que se esta levantando el servidor, normalmente es en 5000.
 
 1. **Tener clonado el repositorio**
    
-      ```bash
+   ```bash
    git clone https://github.com/jzamora03/dev-inventariocll-back.git
    ```
-2. **Configurar la cadena de conexión**
- -  Editar el archivo **appsettings.json**
-   ```json
-   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Port=5432;Database=inventariodb;Username=postgres;Password=tu_clave"
-  }
-```
-3. **Asegúrate de que:**
-- La base de datos inventariodb existe (En este caso se uso DBeaver pero se puede usar cualquiera).
-- El usuario/clave coinciden con tu configuración local.
-  
-6. **Verificar que las tablas se hayan creado correctamente, las cuales son:**
-  - Productos
-  - movimientos_inventario
-    
+2. **Agregar base de datos y tablas necesarias**
+   - Correr el script `inventariodb_schema.sql` el cual contiene las tablas necesarias para el correcto funcionamiento del proyecto.
+   - Verificar que la tabla inventariodb se haya creado correctamente y exista (En este caso se uso DBeaver pero se puede usar cualquiera).
+
+3. **Verificar que las tablas se hayan creado correctamente, las cuales son:**
+   - Productos y movimientos_inventario
+      
+4. **Configurar la conexión, luego haber creado las tablas necesarias:**
+    -  Editar el archivo **appsettings.json** el cual se encuentra en la carpeta raíz.
+      ```json
+      "ConnectionStrings": {
+       "DefaultConnection": "Host=localhost;Port=5432;Database=inventariodb;Username=postgres;Password=tu_clave"
+     }
+      ```
 5. **Restaurar dependencias y compilar:**
-- `dotnet restore`
-- `dotnet build`
+   - `dotnet restore`
+   - `dotnet build`
   
-6. **Ejecutar el proyecto:**
-- `dotnet run`
-
-
+6. **Ejecutar el proyecto en Visual Studio Code:**
+   - `dotnet run`
