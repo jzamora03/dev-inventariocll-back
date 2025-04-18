@@ -23,11 +23,10 @@ Este backend fue desarrollado en **.NET Core 9** con **Entity Framework Core** y
    ```
 2. **Agregar base de datos y tablas necesarias**
    - Correr el script `inventariodb_schema.sql` el cual contiene las tablas necesarias para el correcto funcionamiento del proyecto.
-   - Verificar que la tabla inventariodb se haya creado correctamente y exista (En este caso se uso DBeaver pero se puede usar cualquiera).
 
 3. **Verificar que las tablas se hayan creado correctamente, las cuales son:**
    - Productos y movimientos_inventario
-      
+     
 4. **Configurar la conexión, luego haber creado las tablas necesarias:**
     -  Editar el archivo **appsettings.json** el cual se encuentra en la carpeta raíz.
       ```json
