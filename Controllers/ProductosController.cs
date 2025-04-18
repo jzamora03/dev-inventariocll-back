@@ -38,13 +38,11 @@ public class ProductosController : ControllerBase
     [HttpPost("agrear-nuevo-producto")]
     public IActionResult AgregarProducto([FromBody] Producto producto)
     {
-        // Función local para normalizar el nombre (quitar espacios extra y pasar a minúsculas)
         string NormalizarNombre(string nombre) =>
             System.Text.RegularExpressions.Regex.Replace(nombre.Trim().ToLowerInvariant(), @"\s+", " ");
 
         var nombreNormalizado = NormalizarNombre(producto.Nombre);
 
-        // Verificar si ya existe un producto con ese nombre normalizado
         var existe = _context.Productos
             .AsEnumerable()
             .Any(p => NormalizarNombre(p.Nombre) == nombreNormalizado);
@@ -54,9 +52,8 @@ public class ProductosController : ControllerBase
             return BadRequest(new { mensaje = "Ya existe un producto con ese nombre." });
         }
 
-        // Guardar el producto con nombre limpio (opcional)
         producto.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo
-            .ToTitleCase(nombreNormalizado); // Convierte a "Portatil Lenovo Ryzen 5"
+            .ToTitleCase(nombreNormalizado);
 
         _context.Productos.Add(producto);
         _context.SaveChanges();
