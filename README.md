@@ -21,6 +21,7 @@ Este backend fue desarrollado en **.NET Core 9** con **Entity Framework Core** y
    ```bash
    git clone https://github.com/jzamora03/dev-inventariocll-back.git
    ```
+   - Si se descarga .zip, al descomprimir borrar el main, y que quede solo **dev-inventariocll-back**
 2. **Agregar base de datos y tablas necesarias**
    - Correr el script `inventariodb_schema.sql` el cual contiene las tablas necesarias para el correcto funcionamiento del proyecto.
 
